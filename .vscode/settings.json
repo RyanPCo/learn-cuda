@@ -1,0 +1,8 @@
+{
+    "files.insertFinalNewline": true,
+    "C_Cpp.default.cppStandard": "c++23",
+    "files.associations": {
+        "language_standard": "cpp",
+        "iostream": "cpp"
+    }
+}
