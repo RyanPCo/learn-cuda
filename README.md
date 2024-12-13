@@ -1,3 +1,3 @@
 Project List:
--Vector addition
--Matrix multiplication
+* Vector addition
+* Matrix multiplication
