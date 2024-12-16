@@ -1,5 +1,10 @@
 {
     "files.associations": {
-        "vector": "cpp"
+        "*.ocn": "plaintext",
+        "*.tcsh": "shellscript",
+        "*.scs": "spice",
+        "vector": "cpp",
+        "iostream": "cpp",
+        "ostream": "cpp"
     }
 }
