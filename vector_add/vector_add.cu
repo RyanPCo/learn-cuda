@@ -26,8 +26,8 @@ __global__ void reduce(long long *partialSum, int size) {
 
 int main () {
     cout << "Program Start" << endl;
-    long long size = 1000000000;
-    int sum = 0;
+    long long size = 1000000;
+    long long sum = 0;
 
     int blockSize = 256;
     int numBlocks = (size + blockSize - 1) / blockSize;
@@ -37,31 +37,27 @@ int main () {
 
     for (int i = 0; i < size; i++) {
         A[i] = i;
-        B[i] = B.size() - i;
+        B[i] = size - i;
     }
 
+    //Pointers to GPU and memory allocation
     int *d_A, *d_B;
     long long *d_partialSum;
     cudaMalloc(&d_A, size * sizeof(int));
     cudaMalloc(&d_B, size * sizeof(int));
     cudaMalloc(&d_partialSum, numBlocks * sizeof(long long));
 
+    //Copy A and B from CPU -> GPU
     cudaMemcpy(d_A, A.data(), size * sizeof(int), cudaMemcpyHostToDevice);
     cudaMemcpy(d_B, B.data(), size * sizeof(int), cudaMemcpyHostToDevice);
 
-    cout << "Copy Memory" << endl;
-
     sumArrays<<<numBlocks, blockSize>>>(d_A, d_B, d_partialSum, size);
-
-    cout << "Sum" << endl;
 
     reduce<<<numBlocks, blockSize>>>(d_partialSum, size);
 
-    cout << "Reduce" << endl;
-
     cudaMemcpy(&sum, d_partialSum, sizeof(long long), cudaMemcpyDeviceToHost);
 
-    cout << sum << endl;
+    cout << "Sum: " << sum << endl;
 
     cudaFree(d_A);
     cudaFree(d_B);
